@@ -1,0 +1,6 @@
+.roundedFrame img {
+  width: 290px;
+  height: 290px;
+
+  border-radius: 100%;
+}

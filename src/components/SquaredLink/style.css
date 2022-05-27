@@ -1,0 +1,20 @@
+.buttonContainer {
+  width: auto;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5b352c;
+  padding: 11px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #eab736;
+  transition: 0.3s;
+}
+
+.buttonContainer a:hover {
+  font-weight: 500;
+  background-color: #3a2828;
+}

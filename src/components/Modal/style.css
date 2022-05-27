@@ -1,0 +1,95 @@
+.modalHeader {
+  display: flex;
+  justify-content: right;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.modalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.modalContentImage {
+  display: flex;
+  justify-content: center;
+}
+
+.modalContentContainer {
+  width: 90%;
+  height: 621px;
+  min-height: 621px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 20px 20px 0 20px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.modalContentDescription {
+  font-size: 18px;
+  margin-bottom: 17px;
+  color: #5b352c;
+}
+
+.modalContentParcels {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #5b352c;
+  margin-top: 0;
+  margin-bottom: 1px;
+}
+
+.modalContentPrice {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 24px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #5b352c;
+}
+
+.modalLabelContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.modalInputContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.modalContentLabel {
+  display: block;
+  font-family: 'Source Sans Pro';
+  font-family: 18px;
+  color: #5b352c;
+}
+
+@media (min-width: 1060px) {
+  .modalHeader {
+    display: flex;
+    justify-content: right;
+    font-size: 30px;
+    cursor: pointer;
+  }
+  .modalContentContainer {
+    width: 790px;
+    height: 430px;
+    min-height: 430px;
+    display: grid;
+    grid-template-columns: 'a a a a' 'b b c c';
+  }
+  .modalContentImage {
+    width: 300px;
+    height: 300px;
+    margin-right: 20px;
+  }
+}

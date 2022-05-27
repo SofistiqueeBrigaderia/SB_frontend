@@ -1,0 +1,135 @@
+.aboutUsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 81px;
+}
+
+.aboutUsContainer p {
+  font-size: 18px;
+  text-align: center;
+  color: #5b352c;
+  line-height: 31px;
+}
+
+.mainSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 32px 0 32px;
+}
+
+.mainSection > div {
+  padding: 0 2rem 0 2rem;
+}
+
+.mainSection > img {
+  width: 100vw;
+}
+
+.ingredientsSection {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconOne {
+  width: 190px;
+  height: 100%;
+  grid-area: 'c';
+  grid-row: 1;
+}
+
+.iconTwo {
+  width: 174px;
+  height: 100%;
+  grid-area: 'n';
+  grid-row: 1;
+}
+
+.iconThree {
+  width: 100vw;
+  max-width: 400px;
+  height: 100%;
+  grid-area: 'm';
+  grid-row: 2;
+}
+
+.missionSection {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #d8a35d;
+}
+
+.visionSection {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #edcfa9;
+}
+
+.orderSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.orderSection a {
+  width: 221px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 11px;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #5b352c;
+  border: 2px solid #5b352c;
+  transition: 0.1s;
+}
+
+.orderSection a:hover {
+  font-weight: 600;
+}
+
+@media (min-width: 1060px) {
+  .mainSection {
+    flex-direction: row;
+  }
+  .mainSection img {
+    width: 50vw;
+  }
+  .mainSection div {
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+  }
+  .mainSection p {
+    width: 40vw;
+  }
+  .boxesWrapper {
+    width: 100vw;
+    display: flex;
+  }
+  .missionSection {
+    height: 174px;
+  }
+  .missionSection p {
+    width: 579.83px;
+  }
+  .visionSection p {
+    width: 476.96px;
+  }
+}

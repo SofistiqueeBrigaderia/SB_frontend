@@ -1,0 +1,120 @@
+header {
+  width: 100vw;
+  height: 81px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+
+  z-index: 999;
+  top: 0;
+  left: 0;
+
+  padding: 10px;
+
+  transition: 0.6s;
+}
+
+header .menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+header .menu a {
+  margin: 0 10px;
+  padding: 0 10px;
+
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: 'Source Sans Pro';
+
+  border-radius: 20px;
+  transition: 0.3s;
+
+  color: #fff;
+}
+
+header .cart {
+  font-size: 30px !important;
+}
+
+header .menu a:hover {
+  color: #d8a35d;
+}
+
+header .btn {
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+}
+
+header .containerButton {
+  display: none;
+}
+
+.socialMediaContainer {
+  display: none;
+}
+
+@media (max-width: 1060px) {
+  header .containerButton {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  header .btn {
+    display: block;
+  }
+
+  header .menu {
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    flex-direction: column;
+
+    position: fixed;
+
+    background-color: rgba(91, 53, 44, 1);
+
+    top: 0;
+    right: -100%;
+
+    padding: 80px 50px;
+    transition: 0.5s;
+    transition-property: right;
+  }
+
+  .active {
+    right: 0 !important;
+  }
+
+  header .menu .close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 25px;
+  }
+
+  header .menu a {
+    display: block;
+    font-size: 25px;
+    margin: 20px;
+    color: #fff;
+  }
+
+  header .menu div {
+    display: flex;
+    flex-direction: row;
+  }
+  header .menu div > a {
+    margin: 2px;
+    font-size: 35px;
+  }
+  .cart {
+    display: block !important;
+    font-size: 70px;
+  }
+}
