@@ -1,17 +1,17 @@
 import BarMenu from 'components/BarMenu';
 import SectionTitle from 'components/SectionTitle';
-import roundedOne from 'assets/images/rounded-1.png';
-import roundedTwo from 'assets/images/rounded-2.png';
 import SquaredButton from 'components/SquaredButton';
-import RoundedFrame from 'components/RoundedFrame';
 import Footer from 'components/Footer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomModal from 'components/Modal';
 import './style.css';
+import api from 'services/api';
+import { CircularProgress } from '@material-ui/core';
 
 export default function Products() {
   const [activeTab, setActiveTab] = useState(1);
   const [open, setOpen] = useState(false);
+  const [brigadeiroData, setBrigadeiroData] = useState([]);
   const [currentItem, setCurrentItem] = useState([
     {
       title: '',
@@ -22,92 +22,18 @@ export default function Products() {
   ]);
   const handleClose = () => setOpen(false);
 
-  const brigadeiroData = [
-    {
-      id: 1,
-      title: 'Brigadeiro tradicional',
-      img: roundedOne,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 2,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 3,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 4,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 5,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 6,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 7,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 8,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 9,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 10,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 11,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-    {
-      id: 12,
-      title: 'Brigadeiro de morango',
-      img: roundedTwo,
-      description: 'Lorem orem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 120.0,
-    },
-  ];
+  useEffect(() => {
+    api
+      .get('https://sofistiqueebrigaderia.herokuapp.com/produtos/all')
+      .then((data) => {
+        setBrigadeiroData(data.data.content);
+      })
+      .catch((err) => {
+        throw err;
+      });
+
+    return () => {};
+  }, [brigadeiroData]);
 
   return (
     <>
@@ -131,36 +57,45 @@ export default function Products() {
           {activeTab == 1 && (
             <>
               <SectionTitle title="Brigadeiros" />
-              <div className="productsCardContainer">
-                {brigadeiroData.map((item) => {
-                  return (
-                    <div key={item.id} className="productsCard">
-                      <RoundedFrame src={item.img} alt={item.name} />
-                      <SectionTitle title={item.title} />
-                      <div className="productsCardInfo">
-                        <p className="productsCardDescription">{item.description}</p>
-                        <p className="productsCardParcels">2x de R${item.price / 2},00</p>
-                        <p className="productsCardPrice">R${item.price},00</p>
+
+              {brigadeiroData ? (
+                <div className="productsCardContainer">
+                  {brigadeiroData.map((item) => {
+                    return (
+                      <div key={item.id} className="productsCard">
+                        <img src={item.foto} alt={item.nome} />
+                        <SectionTitle title={item.nome} />
+                        <div className="productsCardInfo">
+                          <p className="productsCardDescription">{item.descricao}</p>
+                          <p className="productsCardPrice">
+                            {item.preco.toLocaleString('pt-br', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            })}
+                          </p>
+                        </div>
+                        <SquaredButton
+                          title="Eu quero"
+                          location="/"
+                          onClick={() => {
+                            setOpen(true);
+                            setCurrentItem(
+                              currentItem?.map(() => ({
+                                title: item.nome,
+                                img: item.foto,
+                                description: item.descricao,
+                                price: item.preco,
+                              }))
+                            );
+                          }}
+                        />
                       </div>
-                      <SquaredButton
-                        title="Eu quero"
-                        location="/"
-                        onClick={() => {
-                          setOpen(true);
-                          setCurrentItem(
-                            currentItem?.map(() => ({
-                              title: item.title,
-                              img: item.img,
-                              description: item.description,
-                              price: item.price,
-                            }))
-                          );
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <CircularProgress color="#5b352c" />
+              )}
             </>
           )}
           {activeTab == 2 && (
