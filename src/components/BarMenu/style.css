@@ -29,7 +29,7 @@ header .menu a {
   text-decoration: none;
   font-size: 20px;
   font-weight: 500;
-  font-family: 'Source Sans Pro';
+  font-family: "Source Sans Pro";
 
   border-radius: 20px;
   transition: 0.3s;
@@ -115,6 +115,11 @@ header .containerButton {
   }
   .cart {
     display: block !important;
-    font-size: 70px;
+    font-size: 65px;
+  }
+  .cartMenuLink {
+    font-size: 25px;
+    margin: 20px;
+    color: #fff;
   }
 }

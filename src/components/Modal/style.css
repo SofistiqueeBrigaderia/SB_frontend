@@ -19,13 +19,20 @@
 
 .modalContentContainer {
   width: 90%;
-  height: 621px;
+  height: 655px;
   min-height: 621px;
   display: flex;
   flex-direction: column;
   background-color: #fff;
   padding: 20px 20px 0 20px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.modalContentContainer img {
+  width: 250px;
+  height: 250px;
+  border-radius: 100%;
+  margin-bottom: 18px;
 }
 
 .modalContentDescription {
@@ -61,16 +68,45 @@
   margin-bottom: 40px;
 }
 
+.modalContentLabel {
+  display: block;
+  font-family: "Source Sans Pro";
+  font-family: 18px;
+  color: #5b352c;
+}
+
 .modalInputContainer {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
-.modalContentLabel {
+.modalInput {
   display: block;
-  font-family: 'Source Sans Pro';
+  width: 1%;
+  min-width: 80px;
+  min-height: 27px;
   font-family: 18px;
   color: #5b352c;
+  border: 1px solid #ededed;
+}
+
+.modalInputButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  height: 24px;
+  width: 24px;
+  font-size: 22px;
+  font-weight: 500;
+  color: #5b352c;
+  border: 2px solid #5b352c;
+  margin-left: 4px;
+  margin-right: 4px;
+  cursor: pointer;
+  align-self: initial;
+  /*pending clicked*/
 }
 
 @media (min-width: 1060px) {
@@ -85,7 +121,7 @@
     height: 430px;
     min-height: 430px;
     display: grid;
-    grid-template-columns: 'a a a a' 'b b c c';
+    grid-template-columns: "a a a a" "b b c c";
   }
   .modalContentImage {
     width: 300px;

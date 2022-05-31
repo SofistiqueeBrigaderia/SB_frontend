@@ -1,64 +1,86 @@
-import BarMenu from 'components/BarMenu';
-import SectionTitle from 'components/SectionTitle';
-import SquaredButton from 'components/SquaredButton';
-import Footer from 'components/Footer';
-import { useEffect, useState } from 'react';
-import CustomModal from 'components/Modal';
-import './style.css';
-import api from 'services/api';
-import { CircularProgress } from '@material-ui/core';
+import BarMenu from "components/BarMenu";
+import SectionTitle from "components/SectionTitle";
+import SquaredButton from "components/SquaredButton";
+import Footer from "components/Footer";
+import { useEffect, useState } from "react";
+import CustomModal from "components/Modal";
+import "./style.css";
+import api from "services/api";
+import { CircularProgress } from "@material-ui/core";
 
 export default function Products() {
   const [activeTab, setActiveTab] = useState(1);
   const [open, setOpen] = useState(false);
   const [brigadeiroData, setBrigadeiroData] = useState([]);
+  const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
+  const datasComemorativasData = [{}];
+  const outrosProdutosData = [{}];
   const [currentItem, setCurrentItem] = useState([
     {
-      title: '',
-      img: null,
-      description: '',
-      price: null,
+      nome: "",
+      foto: null,
+      descricao: "",
+      preco: null,
+      qtd_minima: null,
     },
   ]);
+
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
+    if (window.innerWidth < 1060) {
+      setColorText("#fff");
+    } else if (window.innerWidth > 1060) {
+      setColorText("rgba(91, 53, 44, 1)");
+    }
+
     api
-      .get('https://sofistiqueebrigaderia.herokuapp.com/produtos/all')
+      .get("/produtos/all")
       .then((data) => {
         setBrigadeiroData(data.data.content);
       })
       .catch((err) => {
         throw err;
       });
-
-    return () => {};
   }, [brigadeiroData]);
 
   return (
     <>
-      <CustomModal open={open} handleClose={handleClose} currentProps={currentItem} />
+      <CustomModal
+        open={open}
+        handleClose={handleClose}
+        currentProps={currentItem}
+      />
 
-      <BarMenu bgColor="#fff" home={false} />
+      <BarMenu bgColor="#fff" colorText={colorText} home={false} />
       <main className="productsContainer">
         <SectionTitle title="Nossos produtos" />
         <div className="productsTab">
-          <button className={activeTab === 1 && `active`} onClick={() => setActiveTab(1)}>
+          <button
+            className={activeTab === 1 && `active`}
+            onClick={() => setActiveTab(1)}
+          >
             Brigadeiros
           </button>
-          <button className={activeTab === 2 && `active`} onClick={() => setActiveTab(2)}>
+          <button
+            className={activeTab === 2 && `active`}
+            onClick={() => setActiveTab(2)}
+          >
             Datas comemorativas
           </button>
-          <button className={activeTab === 3 && `active`} onClick={() => setActiveTab(3)}>
+          <button
+            className={activeTab === 3 && `active`}
+            onClick={() => setActiveTab(3)}
+          >
             Outros produtos
           </button>
         </div>
         <section className="productsBrigadeiroSection">
-          {activeTab == 1 && (
+          {activeTab === 1 && (
             <>
               <SectionTitle title="Brigadeiros" />
 
-              {brigadeiroData ? (
+              {brigadeiroData.length !== 0 ? (
                 <div className="productsCardContainer">
                   {brigadeiroData.map((item) => {
                     return (
@@ -66,11 +88,13 @@ export default function Products() {
                         <img src={item.foto} alt={item.nome} />
                         <SectionTitle title={item.nome} />
                         <div className="productsCardInfo">
-                          <p className="productsCardDescription">{item.descricao}</p>
+                          <p className="productsCardDescription">
+                            {item.descricao}
+                          </p>
                           <p className="productsCardPrice">
-                            {item.preco.toLocaleString('pt-br', {
-                              style: 'currency',
-                              currency: 'BRL',
+                            {item.preco.toLocaleString("pt-br", {
+                              style: "currency",
+                              currency: "BRL",
                             })}
                           </p>
                         </div>
@@ -81,10 +105,12 @@ export default function Products() {
                             setOpen(true);
                             setCurrentItem(
                               currentItem?.map(() => ({
-                                title: item.nome,
-                                img: item.foto,
-                                description: item.descricao,
-                                price: item.preco,
+                                id: item.id,
+                                nome: item.nome,
+                                foto: item.foto,
+                                descricao: item.descricao,
+                                preco: item.preco,
+                                qtd_minima: item.qtd_minima,
                               }))
                             );
                           }}
@@ -98,22 +124,24 @@ export default function Products() {
               )}
             </>
           )}
-          {activeTab == 2 && (
+          {activeTab === 2 && (
             <>
               <SectionTitle title="Datas comemorativas" />
-              <div>
-                {brigadeiroData.map((item) => {
-                  return <div key={item.id}>Worked 2</div>;
+              <div className="productsCardContainer">
+                {datasComemorativasData.map(() => {
+                  return <p>Nada para ver aqui ainda.</p>;
                 })}
               </div>
             </>
           )}
-          {activeTab == 3 && (
+          {activeTab === 3 && (
             <>
               <SectionTitle title="Presentes" />
-              {brigadeiroData.map((item) => {
-                return <div key={item.id}>Worked 3</div>;
-              })}
+              <div className="productsCardContainer">
+                {outrosProdutosData.map(() => {
+                  return <p>Nada para ver aqui ainda.</p>;
+                })}
+              </div>
             </>
           )}
         </section>

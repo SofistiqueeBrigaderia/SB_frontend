@@ -50,9 +50,8 @@
 .productsCardContainer {
   display: grid;
   gap: 35px;
-
   grid-template-columns: repeat(1, minmax(280px, 1fr));
-  min-height: 100vh;
+  min-height: 65.4vh;
 }
 
 .productsCard {

@@ -2,10 +2,11 @@
   width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: baseline;
   align-items: center;
   background-color: #5b352c;
   padding: 24px 0 24px 0;
+  margin-top: auto;
 }
 
 .footerContainer img {
@@ -47,7 +48,7 @@
 }
 
 .footerContainer i {
-  color: #d8a35d;
+  color: #fff;
   transition: 0.3s;
 }
 

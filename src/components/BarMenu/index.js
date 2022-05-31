@@ -1,32 +1,33 @@
-import { Link } from 'react-router-dom';
-import logo from 'assets/logos/rounded-white.svg';
-import logoBrown from 'assets/logos/rounded-brown.svg';
-import { useState } from 'react';
-import './style.css';
+import { Link } from "react-router-dom";
+import logo from "assets/logos/rounded-white.svg";
+import logoBrown from "assets/logos/rounded-brown.svg";
+import { useState } from "react";
+import "./style.css";
 
-export default function BarMenu({ bgColor, home }) {
+export default function BarMenu({ bgColor, home, colorText }) {
   const [isActive, setIsActive] = useState(false);
   const [classActive, setClassActive] = useState();
 
   const data = [
-    { id: 1, title: 'Página Inicial', location: '/' },
-    { id: 2, title: 'Nossos produtos', location: '/produtos' },
-    { id: 3, title: 'Sobre nós', location: '/sobre-nos' },
-    { id: 4, title: 'Contato', location: '/' },
+    { id: 1, title: "Página Inicial", location: "/" },
+    { id: 2, title: "Nossos produtos", location: "/produtos" },
+    { id: 3, title: "Sobre nós", location: "/sobre-nos" },
+    { id: 4, title: "Contato", location: "#contato" },
+    { id: 5, title: "Login", location: "/login" },
     {
       socialMedia: [
         {
           id: 1,
-          icon: 'fa-brands fa-whatsapp',
+          icon: "fa-brands fa-whatsapp",
           location:
-            'https://api.whatsapp.com/send?phone=55119543051110&text=Olá, Valeria! Tudo bem? Gostaria de fazer uma encomenda.',
+            "https://api.whatsapp.com/send?phone=55119543051110&text=Olá, Valeria! Tudo bem? Gostaria de fazer uma encomenda.",
         },
         {
           id: 2,
-          icon: 'fab fa-instagram',
-          location: 'https://www.instagram.com/sofistiqueebrigaderia/',
+          icon: "fab fa-instagram",
+          location: "https://www.instagram.com/sofistiqueebrigaderia/",
         },
-        { id: 3, icon: 'fa-brands fa-facebook', location: '/' },
+        { id: 3, icon: "fa-brands fa-facebook", location: "/" },
       ],
     },
   ];
@@ -36,9 +37,19 @@ export default function BarMenu({ bgColor, home }) {
       <header style={{ backgroundColor: `${bgColor}` }}>
         <Link to="/">
           {home ? (
-            <img height="50px" width="100%" src={logo} alt="Sofistiquée Brigaderia" />
+            <img
+              height="50px"
+              width="100%"
+              src={logo}
+              alt="Sofistiquée Brigaderia"
+            />
           ) : (
-            <img height="50px" width="100%" src={logoBrown} alt="Sofistiquée Brigaderia" />
+            <img
+              height="50px"
+              width="100%"
+              src={logoBrown}
+              alt="Sofistiquée Brigaderia"
+            />
           )}
         </Link>
         <div className={`menu ${classActive}`}>
@@ -46,16 +57,16 @@ export default function BarMenu({ bgColor, home }) {
             <i
               onClick={() => {
                 setIsActive(() => !isActive);
-                setClassActive('');
+                setClassActive("");
               }}
-              style={{ color: '#fff' }}
+              style={{ color: "#fff" }}
               className="fas fa-times close-btn"
             ></i>
           </div>
           {data.slice(0, -1).map((item) => {
             return (
               <Link
-                style={home ? { color: '#fff' } : { color: 'rgba(91, 53, 44, 1)' }}
+                style={home ? { color: "#fff" } : { color: `${colorText}` }}
                 key={item.id}
                 to={item.location}
               >
@@ -64,11 +75,15 @@ export default function BarMenu({ bgColor, home }) {
             );
           })}
           <Link
-            className="cart"
-            to="/carrinho"
-            style={home ? { color: '#fff' } : { color: 'rgba(91, 53, 44, 1)' }}
+            className={window.innerWidth < 1060 ? `cartMenuLink` : `cart`}
+            to="/meu-carrinho"
+            style={home ? { color: "#fff" } : { color: `${colorText}` }}
           >
-            <i className="fa-solid fa-cart-shopping"></i>
+            {window.innerWidth < 1060 ? (
+              "Meu carrinho"
+            ) : (
+              <i className="fa-solid fa-cart-shopping"></i>
+            )}
           </Link>
 
           <div className="socialMediaContainer">
@@ -90,16 +105,19 @@ export default function BarMenu({ bgColor, home }) {
         <div className="containerButton">
           <Link
             className="btn"
-            to="/produtos"
-            style={home ? { color: '#fff' } : { color: 'rgba(91, 53, 44, 1)' }}
+            to="/meu-carrinho"
+            style={home ? { color: "#fff" } : { color: "rgba(91, 53, 44, 1)" }}
           >
             <i className="fa-solid fa-cart-shopping"></i>
           </Link>
-          <div className="btn" style={home ? { color: '#fff' } : { color: 'rgba(91, 53, 44, 1)' }}>
+          <div
+            className="btn"
+            style={home ? { color: "#fff" } : { color: "rgba(91, 53, 44, 1)" }}
+          >
             <i
               onClick={() => {
                 setIsActive(() => !isActive);
-                setClassActive('active');
+                setClassActive("active");
               }}
               className="fas fa-bars menu-btn "
             ></i>
