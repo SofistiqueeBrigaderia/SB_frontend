@@ -17,8 +17,14 @@ const Cart = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const decrementCount = () => {
-    if (count > 0) setCount(count - 1);
+  const decrementCount = (id) => {
+    if (count > 5) setCount(count - 1);
+    dispatch(cartActions.updateQuantity(id, count));
+  };
+
+  const incrementCount = (id) => {
+    if (count <= 100) setCount(count + 1);
+    dispatch(cartActions.updateQuantity(id, count));
   };
 
   const handleSubmit = (e) => {
@@ -30,6 +36,8 @@ const Cart = () => {
   console.log({ data }, { cart });
 
   useEffect(() => {
+    dispatch(cartActions.getCartTotal());
+
     if (window.innerWidth < 1060) {
       setColorText("#fff");
     } else if (window.innerWidth > 1060) {
@@ -71,7 +79,7 @@ const Cart = () => {
                       </strong>
                     </p>
                     <p className="cartCardPrice">
-                      Total:{" "}
+                      Total:
                       <strong>{item.preco * item.quantidadePedida}</strong>
                     </p>
                   </div>
@@ -80,26 +88,21 @@ const Cart = () => {
                     <div className="cartInputContainer">
                       <input
                         type="number"
-                        value={count}
-                        onChange={(event) => {
-                          const value = Number(event.target.value);
-                          setCount(value);
-                        }}
                         className="cartInput"
+                        minLength={5}
+                        onChange={(e) => setCount(Number(e.target.value))}
+                        value={count}
                       />
                       <button
                         type="button"
-                        onClick={decrementCount}
+                        onClick={() => decrementCount(item.id)}
                         className="cartInputButtons"
                       >
                         -
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
-                          setCount(count + 1);
-                          dispatch(cartActions.increaseQuantity(item.id));
-                        }}
+                        onClick={() => incrementCount(item.id)}
                         className="cartInputButtons"
                       >
                         +
