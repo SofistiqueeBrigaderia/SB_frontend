@@ -1,122 +1,130 @@
-* {
-    margin: 0;
-    padding: 0;
+.alert {
+  width: 100vw;
 }
 
-h2, p, input {
-    font-family: Source Sans Pro;
+h2,
+p,
+input {
+  font-family: Source Sans Pro;
 }
 
 .cadastro-bg {
-    background-color: #D8A35D;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: #d8a35d;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cadastro-box {
-    margin-top: 90px;
-    margin-bottom: 30px;
-    background-color: #FFF;
+  margin-top: 90px;
+  margin-bottom: 30px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  flex-direction: column;
+  height: 750px;
+  width: 92vw;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.cadastro-title {
+  font-size: 25px;
+  font-weight: bold;
+  color: #5b352c;
+  margin: 0 0 10px 0;
+}
+
+.cadastro-txt {
+  font-size: 16px;
+  color: #5b352c;
+  text-align: center;
+  margin-left: 5px;
+}
+
+.cadastro-input {
+  height: 39px;
+  padding: 0 5px;
+  border: #d8d8d8 solid 2px;
+  margin-bottom: 11px;
+  color: #5b352c;
+}
+
+.div0,
+.div1,
+.div2 {
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+}
+
+.cadastro-input::placeholder {
+  color: #5b352c;
+  text-align: center;
+}
+
+.cadastro-botao {
+  background-color: #5b352c;
+  width: 80vw;
+  height: 39px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #d8a35d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cadastro-botao:hover {
+  cursor: pointer;
+}
+
+.cadastro-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 1060px) {
+  .alert {
+    width: 40vw;
+  }
+}
+
+@media (min-width: 490px) {
+  .cadastro-box {
+    background-color: #fff;
     display: flex;
     justify-content: center !important;
     align-items: center;
     flex-direction: column;
-    height: 750px;
-    width: 92vw;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
+    height: 640px;
+    width: 450px;
+  }
 
-.cadastro-title {
-    font-size: 25px;
-    font-weight: bold;
-    color: #5B352C;
-    margin: 0 0 10px 0;
-}
+  .div0 {
+    width: 390px;
+  }
 
-.cadastro-txt {
-    font-size: 16px;
-    color: #5B352C;
-    text-align: center;
-    margin-left: 5px;
-}
+  .div1 {
+    width: 140px;
+  }
 
-.cadastro-input {
+  .div2 {
+    width: 240px;
+  }
+
+  .cadastro-botao {
+    width: 390px;
     height: 39px;
-    padding: 0 5px;
-    border: #D8D8D8 solid 2px;
-    margin-bottom: 11px;
-    color: #5B352C;
-}
-
-.div0, .div1, .div2 {
-    width: 80vw;
-    display: flex;
-    justify-content: center;
-}
-
-.cadastro-input::placeholder {
-    color: #5B352C;
-    text-align: center;
-}
-
-.cadastro-botao {
-    background-color: #5B352C;
-    width: 80vw;
-    height: 39px;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    color: #D8A35D;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+  }
 
-.cadastro-botao:hover {
-    cursor: pointer;
-}
-
-.cadastro-checkbox{
+  .input-m {
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@media (min-width: 490px) {
-    .cadastro-box {
-        background-color: #FFF;
-        display: flex;
-        justify-content: center !important;
-        align-items: center;
-        flex-direction: column;
-        height: 640px;
-        width: 450px;
-    }
-
-    .div0 {
-        width: 390px;
-    }
-
-    .div1 {
-        width: 140px;
-    }
-    
-    .div2 {
-        width: 240px;
-    }
-
-    .cadastro-botao {
-        width: 390px;
-        height: 39px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .input-m {
-        display: flex;
-        justify-content: space-between;
-    }
-    
+    justify-content: space-between;
+  }
 }

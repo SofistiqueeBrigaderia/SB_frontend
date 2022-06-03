@@ -1,11 +1,22 @@
 import BarMenu from "components/BarMenu";
 import Footer from "components/Footer";
+import { useEffect, useState } from "react";
 import "./style.css";
 
 function OrdersAdmin() {
+  const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
+
+  useEffect(() => {
+    if (window.innerWidth < 1060) {
+      setColorText("#fff");
+    } else if (window.innerWidth > 1060) {
+      setColorText("rgba(91, 53, 44, 1)");
+    }
+  }, []);
+
   return (
     <>
-      <BarMenu bgColor="#fff" home={false} />
+      <BarMenu bgColor="#fff" colorText={colorText} home={false} />
       <main className="orderContainer">
         <h2>Pedidos recebidos</h2>
 

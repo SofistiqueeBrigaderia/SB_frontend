@@ -115,7 +115,12 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
                   </button>
                 </div>
               </div>
-              <SquaredButton title="Comprar" location="/" type="submit" />
+              <SquaredButton
+                title="Comprar"
+                location="/"
+                type="submit"
+                onClick={handleClose}
+              />
             </form>
           </div>
         </Modal>
