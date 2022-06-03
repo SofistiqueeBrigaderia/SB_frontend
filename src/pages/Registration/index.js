@@ -1,13 +1,16 @@
 import BarMenu from "components/BarMenu";
 import Footer from "components/Footer";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "services/api";
 import { app } from "services/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@mui/material";
 
 const Registration = () => {
+  const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
   const [nome, setNome] = useState();
@@ -19,7 +22,17 @@ const Registration = () => {
   const [cidade, setCidade] = useState();
   const [termos, setTermos] = useState(false);
   const [estado, setEstado] = useState();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState();
+  const [severity, setSeverity] = useState();
   const navigate = useNavigate();
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,14 +55,18 @@ const Registration = () => {
       .then(() => {
         createUser();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        setSeverity("error");
+        setMessage(error.message);
+        setOpen(true);
       });
 
     const createUser = async () => {
       await createUserWithEmailAndPassword(authentication, email, senha)
         .then((response) => {
-          console.log({ response });
+          setOpen(true);
+          setSeverity("success");
+          setMessage("Você foi logado com sucesso!");
           navigate("/");
         })
         .catch((error) => {
@@ -58,9 +75,27 @@ const Registration = () => {
     };
   };
 
+  useEffect(() => {
+    if (window.innerWidth < 1060) {
+      setColorText("#fff");
+    } else if (window.innerWidth > 1060) {
+      setColorText("rgba(91, 53, 44, 1)");
+    }
+  }, []);
+
   return (
     <>
-      <BarMenu bgColor="#D8A35D" home={true} />
+      <BarMenu bgColor="#D8A35D" colorText={colorText} home={true} />
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={900}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={severity} className="alert">
+          {message}
+        </Alert>
+      </Snackbar>
       <div className="cadastro-bg">
         <div className="cadastro-box">
           <h1 className="cadastro-title">Faça seu cadastro</h1>

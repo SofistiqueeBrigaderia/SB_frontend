@@ -26,16 +26,3 @@ node_modules
 
 build/
 */jest-junit
-
-# Parcel
-**/.cache
-**/dist
-
-# Cypress
-smoke-test/cypress/videos
-smoke-test/cypress/screenshots
-smoke-test/results
-component-test/cypress/videos
-component-test/cypress/screenshots
-component-test/results
-cypress.env.json

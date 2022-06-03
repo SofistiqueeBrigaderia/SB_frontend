@@ -33,22 +33,29 @@ const Login = () => {
         auth.currentUser.getIdToken().then((result) => {
           window.sessionStorage.setItem("Auth Token", result);
         });
+        setOpen(true);
         setTimeout(() => {
           navigate(-1);
-        }, 1000);
+        }, 900);
       })
       .catch((error) => {
         setSeverity("error");
         setMessage(error.message);
+        setOpen(true);
       });
   };
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ background: "yellow", height: "100vh" }}>
       <BarMenu home={true} />
 
-      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity} sx={{ width: "90vw" }}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={900}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={severity} className="alert">
           {message}
         </Alert>
       </Snackbar>

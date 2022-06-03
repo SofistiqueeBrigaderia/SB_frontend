@@ -1,16 +1,17 @@
 import axios from "axios";
 import BarMenu from "components/BarMenu";
 import Footer from "components/Footer";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "store/CartSlice";
 
 import "./style.css";
 
 const Payment = () => {
-  //  const dispatch = useDispatch();
-  // const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const dispatch = useDispatch();
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
   const cart = useSelector((state) => state.cart);
+  const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
 
   const BASE_URL = "https://gerarqrcodepix.com.br/api/v1?";
   const memorizedConfig = useMemo(
@@ -29,6 +30,12 @@ const Payment = () => {
   console.log({ cart });
 
   useEffect(() => {
+    if (window.innerWidth < 1060) {
+      setColorText("#fff");
+    } else if (window.innerWidth > 1060) {
+      setColorText("rgba(91, 53, 44, 1)");
+    }
+
     axios
       .get(
         BASE_URL +
@@ -44,7 +51,7 @@ const Payment = () => {
 
   return (
     <>
-      <BarMenu bgColor="#fff" home={false} />
+      <BarMenu bgColor="#fff" colorText={colorText} home={false} />
       <main style={{ height: "80vh" }} className="cartContainer">
         <i
           style={{
