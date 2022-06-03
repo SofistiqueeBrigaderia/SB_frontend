@@ -41,7 +41,7 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
     event.preventDefault();
 
     addToCart();
-    handleClose;
+    // handleClose;
   };
 
   return (
