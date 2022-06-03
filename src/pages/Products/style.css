@@ -1,3 +1,11 @@
+.mainProductsContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .productsContainer {
   display: flex;
   flex-direction: column;
@@ -51,7 +59,7 @@
   display: grid;
   gap: 35px;
   grid-template-columns: repeat(1, minmax(280px, 1fr));
-  min-height: 65.4vh;
+  min-height: 100vh;
 }
 
 .productsCard {
@@ -61,6 +69,7 @@
   align-items: center;
   width: 20rem;
   height: 100%;
+  min-height: 33rem;
   background-color: #fff;
   padding: 20px 20px 0 20px;
   margin-bottom: 35px;

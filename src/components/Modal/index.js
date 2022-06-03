@@ -41,6 +41,7 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
     event.preventDefault();
 
     addToCart();
+    handleClose;
   };
 
   return (
@@ -115,12 +116,7 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
                   </button>
                 </div>
               </div>
-              <SquaredButton
-                title="Comprar"
-                location="/"
-                type="submit"
-                onClick={handleClose}
-              />
+              <SquaredButton title="Comprar" location="/" type="submit" />
             </form>
           </div>
         </Modal>
