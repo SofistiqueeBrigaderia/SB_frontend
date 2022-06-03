@@ -34,7 +34,7 @@ const Cart = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="mainCartContainer">
       <BarMenu bgColor="#fff" colorText={colorText} home={false} />
       <main className="cartContainer">
         <h2 style={{ marginBottom: "21px" }}>Minha sacola</h2>

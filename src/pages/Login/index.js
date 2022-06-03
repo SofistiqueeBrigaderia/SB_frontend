@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{ background: "yellow", height: "100vh" }}>
+    <div className="loginContainer">
       <BarMenu home={true} />
 
       <Snackbar
@@ -60,7 +60,7 @@ const Login = () => {
         </Alert>
       </Snackbar>
 
-      <div className="login-bg">
+      <main className="login-bg">
         <div className="login-box">
           <h1 className="login-title">Faça seu login</h1>
           <form onSubmit={handleSubmit}>
@@ -94,7 +94,7 @@ const Login = () => {
             <Link to="/cadastro"> Cadastre-se aqui.</Link>
           </p>
         </div>
-      </div>
+      </main>
       <Footer home={true} />
     </div>
   );
