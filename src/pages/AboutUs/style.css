@@ -40,14 +40,14 @@
 .iconOne {
   width: 190px;
   height: 100%;
-  grid-area: 'c';
+  grid-area: "c";
   grid-row: 1;
 }
 
 .iconTwo {
   width: 174px;
   height: 100%;
-  grid-area: 'n';
+  grid-area: "n";
   grid-row: 1;
 }
 
@@ -55,7 +55,7 @@
   width: 100vw;
   max-width: 400px;
   height: 100%;
-  grid-area: 'm';
+  grid-area: "m";
   grid-row: 2;
 }
 
@@ -131,5 +131,8 @@
   }
   .visionSection p {
     width: 476.96px;
+  }
+  .orderSection {
+    height: 25vh;
   }
 }
