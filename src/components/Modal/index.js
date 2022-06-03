@@ -120,7 +120,6 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
           </div>
         </Modal>
       )}
-      {console.log({ data })}
     </>
   );
 };

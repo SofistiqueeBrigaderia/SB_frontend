@@ -1,20 +1,58 @@
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@mui/material";
 import BarMenu from "components/BarMenu";
 import Footer from "components/Footer";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { app } from "services/firebase";
 import "./style.css";
 
 const Login = () => {
   const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [senha, setSenha] = useState();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState();
+  const [severity, setSeverity] = useState();
+  const navigate = useNavigate();
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const auth = getAuth(app);
+    signInWithEmailAndPassword(auth, email, senha)
+      .then(() => {
+        setSeverity("success");
+        setMessage("Você foi logado com sucesso!");
+        auth.currentUser.getIdToken().then((result) => {
+          window.sessionStorage.setItem("Auth Token", result);
+        });
+        setTimeout(() => {
+          navigate(-1);
+        }, 1000);
+      })
+      .catch((error) => {
+        setSeverity("error");
+        setMessage(error.message);
+      });
   };
 
   return (
     <div style={{ minHeight: "100vh" }}>
       <BarMenu home={true} />
+
+      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: "90vw" }}>
+          {message}
+        </Alert>
+      </Snackbar>
+
       <div className="login-bg">
         <div className="login-box">
           <h1 className="login-title">Faça seu login</h1>
@@ -26,7 +64,6 @@ const Login = () => {
                 id="email"
                 name="email"
                 placeholder="EMAIL"
-                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -37,14 +74,13 @@ const Login = () => {
                 id="senha"
                 name="senha"
                 placeholder="SENHA"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setSenha(e.target.value)}
               />
             </div>
             <p className="login-txt">Esqueci a senha</p>
-            <div type="submit" className="login-botao">
+            <button type="submit" className="login-botao">
               ENTRAR
-            </div>
+            </button>
           </form>
           <p className="login-txt">
             Ainda não tem conta?

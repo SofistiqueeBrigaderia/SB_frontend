@@ -1,7 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
-  cartIsFilled: 0,
   cartItems: [],
   totalQuantity: 0,
   totalAmount: 0,
@@ -31,26 +30,14 @@ const cartSlice = createSlice({
           valorTotal: newItem.valorTotal,
         });
       }
-      /*else {
-          existingItem?.quantidadePedida++
-        existingItem.valorTotal = Number(existingItem.valorTotal) + Number(newItem.price),
-        }*/
-    },
 
-    getCartTotal: (state) => {
-      let { totalAmount, totalQuantity } = state.cartItems.reduce(
-        (cartTotal, cartItem) => {
-          const { price, amount } = cartItem;
-          const itemTotal = price * amount;
-          cartTotal.totalAmount += itemTotal;
-          cartTotal.totalQuantity += amount;
-          return cartTotal;
-        },
-        { totalAmount: 0, totalQuantity: 0 }
+      let currentTotal = state.cartItems.map((item) => {
+        return item.valorTotal;
+      });
+
+      state.totalAmount = currentTotal.reduce(
+        (prev, current) => prev + current
       );
-
-      state.totalAmount = parseInt(totalAmount.toFixed(2));
-      state.totalQuantity = totalQuantity;
     },
 
     updateQuantity(action, state) {
@@ -69,6 +56,46 @@ const cartSlice = createSlice({
       }
     },
 
+    decrementQuantity(action, state) {
+      const indexItem = action.payload;
+      const existingItem = state.cartItems.find(
+        (item) => item.id === indexItem
+      );
+
+      if (existingItem) {
+        state.cardItems.map((item) => ({
+          ...item,
+          quantidadePedida:
+            item.id === indexItem &&
+            item.quantidadePedida.reduce((accumulator) => accumulator - 1),
+          valorTotal:
+            item.id === indexItem
+              ? item.quantidadePedida * item.preco
+              : item.preco,
+        }));
+      }
+    },
+
+    increaseQuantity(action, state) {
+      const indexItem = action.payload;
+      const existingItem = state.cartItems.find(
+        (item) => item.id === indexItem
+      );
+
+      if (existingItem) {
+        state.cardItems.map((item) => ({
+          ...item,
+          quantidadePedida:
+            item.id === indexItem &&
+            item.quantidadePedida.reduce((accumulator) => accumulator + 1),
+          valorTotal:
+            item.id === indexItem
+              ? item.quantidadePedida * item.preco
+              : item.preco,
+        }));
+      }
+    },
+
     removeItem(state, action) {
       const indexItem = action.payload;
       const existingItem = state.cartItems.find(
@@ -83,6 +110,8 @@ const cartSlice = createSlice({
         }
       }
     },
+
+    clearCart: () => INITIAL_STATE,
   },
 });
 

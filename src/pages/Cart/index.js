@@ -11,21 +11,11 @@ const Cart = () => {
   const [count, setCount] = useState(5);
   const data = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const cart = useSelector((state) => state.cart);
+  const userToken = useSelector((state) => state.user.currentUserToken);
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const decrementCount = (id) => {
-    if (count > 5) setCount(count - 1);
-    dispatch(cartActions.updateQuantity(id, count));
-  };
-
-  const incrementCount = (id) => {
-    if (count <= 100) setCount(count + 1);
-    dispatch(cartActions.updateQuantity(id, count));
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,17 +23,15 @@ const Cart = () => {
     navigate(`${location.pathname}/pagamento`);
   };
 
-  console.log({ data }, { cart });
+  console.log({ userToken });
 
   useEffect(() => {
-    dispatch(cartActions.getCartTotal());
-
     if (window.innerWidth < 1060) {
       setColorText("#fff");
     } else if (window.innerWidth > 1060) {
       setColorText("rgba(91, 53, 44, 1)");
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -90,19 +78,27 @@ const Cart = () => {
                         type="number"
                         className="cartInput"
                         minLength={5}
-                        onChange={(e) => setCount(Number(e.target.value))}
-                        value={count}
+                        onChange={(e) =>
+                          dispatch(
+                            cartActions.updateQuantity(item.id, e.target.value)
+                          )
+                        }
+                        defaultValue={item.quantidadePedida}
                       />
                       <button
                         type="button"
-                        onClick={() => decrementCount(item.id)}
+                        onClick={() =>
+                          dispatch(cartActions.decrementQuantity(item.id))
+                        }
                         className="cartInputButtons"
                       >
                         -
                       </button>
                       <button
                         type="button"
-                        onClick={() => incrementCount(item.id)}
+                        onClick={() =>
+                          dispatch(cartActions.increaseQuantity(item.id))
+                        }
                         className="cartInputButtons"
                       >
                         +

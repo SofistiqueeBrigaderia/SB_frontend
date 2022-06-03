@@ -1,10 +1,14 @@
 import { CircularProgress } from "@material-ui/core";
-import { lazy, Suspense } from "react";
+import "firebase/auth";
+import { lazy, Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
+  Navigate,
   Route,
   Routes as Switch,
 } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import { app } from "services/firebase";
 
 const Home = lazy(() => import("./pages/Home"));
 const Products = lazy(() => import("./pages/Products"));
@@ -16,6 +20,20 @@ const OrdersAdmin = lazy(() => import("./pages/OrdersAdmin"));
 const Registration = lazy(() => import("./pages/Registration"));
 
 export default function Routes() {
+  const auth = getAuth(app);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(() => {
+      auth.currentUser.getIdToken().then((result) => {
+        setUser(result);
+      });
+    });
+  }, [auth]);
+
+  console.log(window.sessionStorage.getItem("Auth Token"));
+  console.log(user);
+
   return (
     <Router>
       <Suspense fallback={<CircularProgress />}>
@@ -24,10 +42,19 @@ export default function Routes() {
           <Route path="/produtos" exact element={<Products />} />
           <Route path="/sobre-nos" exact element={<AboutUs />} />
           <Route path="/meu-carrinho" exact element={<Cart />} />
-          <Route path="/meu-carrinho/pagamento" exact element={<Payment />} />
-          <Route path="/login" exact element={<Login />} />
-          <Route path="/admin/pedidos" exact element={<OrdersAdmin />} />
           <Route path="/cadastro" exact element={<Registration />} />
+          <Route path="/login" exact element={<Login />} />
+
+          <Route
+            path="/admin/pedidos"
+            exact
+            element={user ? <OrdersAdmin /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/meu-carrinho/pagamento"
+            exact
+            element={user ? <Payment /> : <Navigate to="/login" />}
+          />
         </Switch>
       </Suspense>
     </Router>

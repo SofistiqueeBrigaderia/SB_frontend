@@ -24,10 +24,10 @@ const Registration = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log("hi-");
+    const authentication = getAuth(app);
 
     api
-      .post("/usuario", {
+      .post("/usuarios", {
         nome: nome,
         email: email,
         telefone: telefone,
@@ -39,12 +39,7 @@ const Registration = () => {
         cep: cep,
         termos: termos,
       })
-      .then((response) => {
-        sessionStorage.setItem(
-          "Auth Token",
-          response._tokenResponse.refreshToken
-        );
-        console.log("Registred", { response });
+      .then(() => {
         createUser();
       })
       .catch((err) => {
@@ -52,8 +47,6 @@ const Registration = () => {
       });
 
     const createUser = async () => {
-      const authentication = getAuth(app);
-
       await createUserWithEmailAndPassword(authentication, email, senha)
         .then((response) => {
           console.log({ response });

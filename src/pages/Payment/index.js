@@ -1,65 +1,46 @@
-import qrCde from "assets/utils/qr_code.jpeg";
+import axios from "axios";
 import BarMenu from "components/BarMenu";
 import Footer from "components/Footer";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { cartActions } from "store/CartSlice";
 
 import "./style.css";
 
 const Payment = () => {
-  const [count, setCount] = useState(5);
-  const [array, setArray] = useState({
-    totalQuantity: 2,
-    totalAmount: 35,
-    cardItem: [
-      {
-        id: 1,
-        nome: "Brigadeiro gourmet tradicional",
-        preco: 3.5,
-        qtd_minima: 5,
-        quantidadePedida: 5,
-        valorTotal: 17.5,
+  //  const dispatch = useDispatch();
+  // const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const cart = useSelector((state) => state.cart);
+
+  const BASE_URL = "https://gerarqrcodepix.com.br/api/v1?";
+  const memorizedConfig = useMemo(
+    () => ({
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Credentials": true,
       },
-      {
-        id: 4,
-        nome: "Brigadeiro gourmet Ninho com Nutella",
-        preco: 3.5,
-        qtd_minima: 5,
-        quantidadePedida: 5,
-        valorTotal: 17.5,
-      },
-    ],
-  });
+    }),
+    []
+  );
 
-  const removeItem = (id) => {
-    const indexItem = id;
-    const existingItem = array.cardItem.find((item) => item.id === id);
+  console.log({ cart });
 
-    if (existingItem) {
-      for (var i = array.cardItem.length - 1; i >= 0; --i) {
-        if (array.cardItem[i].id === indexItem) {
-          array.cardItem.splice(i, 1);
-        }
-      }
-    }
-  };
-
-  const updateCount = (id, value) => {
-    setArray(
-      array.map((item) => ({
-        ...item,
-        quantidadePedida: item.id === id ? value : item.quantidadePedida,
-        valorTotal: item.id === id ? value * item.preco : item.preco,
-      }))
-    );
-  };
-
-  const getCartTotal = () => {
-    array.cardItem.reduce((prevItem, currentItem) => {
-    const amount = array.cardItem.quantidadePedida
-    });
-  };
-
-  getCartTotal();
+  useEffect(() => {
+    axios
+      .get(
+        BASE_URL +
+          "nome=Ana&cidade=Cotia&chave=f5e64adb-e5cc-4df4-8c47-a02f0bbebaa1&valor=0.1&saida=qr&tamanho=256",
+        memorizedConfig
+      )
+      .then((response) => {
+        console.log(response);
+        //dispatch(cartActions.clearCart());
+      })
+      .catch((error) => console.log(error.message));
+  }, [memorizedConfig]);
 
   return (
     <>
@@ -80,6 +61,7 @@ const Payment = () => {
           className="fa fa-check"
           aria-hidden="true"
         ></i>
+
         <p>Pagamento confirmado!</p>
       </main>
       <Footer home={false} />
