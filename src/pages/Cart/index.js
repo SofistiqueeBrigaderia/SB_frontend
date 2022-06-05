@@ -11,7 +11,6 @@ import { Snackbar } from "@material-ui/core";
 import { Alert } from "@mui/material";
 
 const Cart = () => {
-  //const [count, setCount] = useState(5);
   const data = useSelector((state) => state.cart);
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
   const currentUser = useSelector((state) => state.auth);
@@ -23,7 +22,7 @@ const Cart = () => {
   const navigate = useNavigate();
   var orderNumber = new Uint32Array(1);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }

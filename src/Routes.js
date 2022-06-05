@@ -1,5 +1,4 @@
 import { CircularProgress } from "@material-ui/core";
-import "firebase/auth";
 import { lazy, Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,

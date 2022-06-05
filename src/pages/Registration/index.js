@@ -32,7 +32,7 @@ const Registration = () => {
 
   const validateCEP = useMemo(() => /^[0-9]{8}$/, []);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -85,7 +85,7 @@ const Registration = () => {
 
     const createUser = async () => {
       await createUserWithEmailAndPassword(auth, email, senha)
-        .then((response) => {
+        .then(() => {
           setOpen(true);
           setSeverity("success");
           setMessage("Você foi logado com sucesso!");

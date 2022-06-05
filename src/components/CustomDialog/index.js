@@ -6,7 +6,7 @@ import "./style.css";
 import { useDispatch } from "react-redux";
 import { cartActions } from "store/CartSlice";
 
-const CustomDialog = ({ open, handleClose, currentProps, onButtonClick }) => {
+const CustomDialog = ({ open, handleClose, currentProps }) => {
   const [count, setCount] = useState(5);
   const dispatch = useDispatch();
 
