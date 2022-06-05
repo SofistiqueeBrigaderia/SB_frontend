@@ -26,7 +26,7 @@ export default function Routes() {
 
   useEffect(() => {
     auth.onAuthStateChanged(() => {
-      auth.currentUser.getIdToken().then((result) => {
+      auth.currentUser?.getIdToken().then((result) => {
         setUser(result);
       });
     });
