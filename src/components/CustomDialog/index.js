@@ -16,17 +16,6 @@ const CustomDialog = ({ open, handleClose, currentProps }) => {
       currentProps[0].preco * currentProps[0].quantidadePedida;
 
     dispatch(
-      cartActions.addPostItem({
-        id: currentProps[0].id,
-        nome: currentProps[0].nome,
-        foto: currentProps[0].foto,
-        descricao: currentProps[0].descricao,
-        preco: currentProps[0].preco,
-        qtd_minima: currentProps[0].qtd_minima,
-      })
-    );
-
-    dispatch(
       cartActions.addItem({
         id: currentProps[0].id,
         nome: currentProps[0].nome,

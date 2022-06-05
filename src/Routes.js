@@ -60,12 +60,12 @@ export default function Routes() {
           <Route
             path="/admin/pedidos"
             exact
-            element={user ? <OrdersAdmin /> : <Navigate to="/login" />}
+            element={user ? <OrdersAdmin /> : <Navigate to={-1} />}
           />
           <Route
             path="/meu-carrinho/pagamento"
             exact
-            element={user ? <Payment /> : <Navigate to="/login" />}
+            element={user ? <Payment /> : <Navigate to={-1} />}
           />
         </Switch>
       </Suspense>

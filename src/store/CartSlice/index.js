@@ -48,24 +48,6 @@ const cartSlice = createSlice({
       );
     },
 
-    addPostItem(state, action) {
-      const newItem = action.payload;
-      const existingItem = state.cartPostItems.find(
-        (item) => item.id === newItem.id
-      );
-
-      if (!existingItem) {
-        state.cartPostItems.push({
-          id: newItem.id,
-          nome: newItem.nome,
-          foto: newItem.foto,
-          descricao: newItem.descricao,
-          preco: newItem.preco,
-          qtd_minima: newItem.qtd_minima,
-        });
-      }
-    },
-
     updateQuantity(state, action) {
       const { indexItem, value } = action.payload;
       const existingItem = state.cartItems.find(

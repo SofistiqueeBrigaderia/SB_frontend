@@ -33,26 +33,28 @@ const Cart = () => {
     e.preventDefault();
 
     if (currentUser.authCurrentUser) {
-      api
-        .post(`/pedidos`, {
-          numPedido: window.crypto.getRandomValues(orderNumber)[0],
-          quantidade: data?.totalQuantity,
-          precoTotal: data?.totalAmount,
-          produto: data?.cartPostItems,
-          usuario: currentUser?.authCurrentUser,
-        })
-        .then(() => {
-          navigate(`${location.pathname}/pagamento`, {
-            state: { totalAmount: data?.totalAmount },
+      data.cartItems.map((item) => {
+        return api
+          .post(`/pedidos`, {
+            numPedido: window.crypto.getRandomValues(orderNumber)[0],
+            quantidade: data?.totalQuantity,
+            precoTotal: data?.totalAmount,
+            produto: { id: item.id },
+            usuario: { id: currentUser?.authCurrentUser.id },
+          })
+          .then(() => {
+            navigate(`${location.pathname}/pagamento`, {
+              state: { totalAmount: data?.totalAmount },
+            });
+            dispatch(cartActions.clearCart());
+          })
+          .catch((err) => {
+            console.log(err.message);
+            setSeverity("error");
+            setMessage("Desculpe. Algo deu errado.");
+            setOpen(true);
           });
-          dispatch(cartActions.clearCart());
-        })
-        .catch((err) => {
-          console.log(err.message);
-          setSeverity("error");
-          setMessage("Desculpe. Algo deu errado.");
-          setOpen(true);
-        });
+      });
     } else {
       setSeverity("error");
       setMessage("Você precisa realizar o login antes.");
