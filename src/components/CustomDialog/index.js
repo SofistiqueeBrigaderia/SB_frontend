@@ -1,20 +1,31 @@
 import SectionTitle from "components/SectionTitle";
 import SquaredButton from "components/SquaredButton";
-import { Divider, Modal } from "@material-ui/core";
+import { Dialog, DialogActions, Divider } from "@material-ui/core";
 import { useState } from "react";
 import "./style.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { cartActions } from "store/CartSlice";
 
-const CustomModal = ({ open, handleClose, currentProps }) => {
+const CustomDialog = ({ open, handleClose, currentProps, onButtonClick }) => {
   const [count, setCount] = useState(5);
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.cart.cartItems);
 
   const addToCart = () => {
     currentProps[0].quantidadePedida = count;
     currentProps[0].valorTotal =
       currentProps[0].preco * currentProps[0].quantidadePedida;
+
+    dispatch(
+      cartActions.addPostItem({
+        id: currentProps[0].id,
+        nome: currentProps[0].nome,
+        foto: currentProps[0].foto,
+        descricao: currentProps[0].descricao,
+        preco: currentProps[0].preco,
+        qtd_minima: currentProps[0].qtd_minima,
+      })
+    );
+
     dispatch(
       cartActions.addItem({
         id: currentProps[0].id,
@@ -41,14 +52,14 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
     event.preventDefault();
 
     addToCart();
-    // handleClose;
   };
 
   return (
     <>
       {currentProps && (
-        <Modal
+        <Dialog
           open={open}
+          maxWidth="md"
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
@@ -56,7 +67,11 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
         >
           <div className="modalContentContainer">
             <div style={{ gridColumn: 2, gridRow: 1 }} className="modalHeader">
-              <i onClick={handleClose} className="fas fa-times close-btn"></i>
+              <i
+                style={{ color: "#5b352c" }}
+                onClick={handleClose}
+                className="fas fa-times close-btn"
+              ></i>
             </div>
 
             <div
@@ -116,13 +131,21 @@ const CustomModal = ({ open, handleClose, currentProps }) => {
                   </button>
                 </div>
               </div>
-              <SquaredButton title="Comprar" location="/" type="submit" />
+
+              <DialogActions>
+                <SquaredButton
+                  onClick={handleClose}
+                  title="Comprar"
+                  location="/"
+                  type="submit"
+                />
+              </DialogActions>
             </form>
           </div>
-        </Modal>
+        </Dialog>
       )}
     </>
   );
 };
 
-export default CustomModal;
+export default CustomDialog;

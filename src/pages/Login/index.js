@@ -30,9 +30,7 @@ const Login = () => {
       .then(() => {
         setSeverity("success");
         setMessage("Você foi logado com sucesso!");
-        auth.currentUser.getIdToken().then((result) => {
-          window.sessionStorage.setItem("Auth Token", result);
-        });
+
         setOpen(true);
         setTimeout(() => {
           navigate(-1);

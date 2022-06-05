@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { app } from "services/firebase";
+import { useDispatch } from "react-redux";
 
 const Home = lazy(() => import("./pages/Home"));
 const Products = lazy(() => import("./pages/Products"));
@@ -22,6 +23,7 @@ const Registration = lazy(() => import("./pages/Registration"));
 export default function Routes() {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     auth.onAuthStateChanged(() => {
@@ -29,14 +31,11 @@ export default function Routes() {
         setUser(result);
       });
     });
-  }, [auth]);
-
-  console.log(window.sessionStorage.getItem("Auth Token"));
-  console.log(user);
+  }, [auth, dispatch]);
 
   return (
     <Router>
-      <Suspense fallback={<CircularProgress />}>
+      <Suspense fallback={<CircularProgress color="#5b352c" />}>
         <Switch>
           <Route path="/" exact element={<Home />} />
           <Route path="/produtos" exact element={<Products />} />

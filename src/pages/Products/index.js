@@ -3,7 +3,7 @@ import SectionTitle from "components/SectionTitle";
 import SquaredButton from "components/SquaredButton";
 import Footer from "components/Footer";
 import { useEffect, useState } from "react";
-import CustomModal from "components/Modal";
+import CustomDialog from "components/CustomDialog";
 import "./style.css";
 import api from "services/api";
 import { CircularProgress } from "@material-ui/core";
@@ -15,6 +15,7 @@ export default function Products() {
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
   const datasComemorativasData = [{}];
   const outrosProdutosData = [{}];
+
   const [currentItem, setCurrentItem] = useState([
     {
       nome: "",
@@ -42,14 +43,16 @@ export default function Products() {
       .catch((err) => {
         throw err;
       });
-  }, [brigadeiroData]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
-      <CustomModal
+      <CustomDialog
         open={open}
         handleClose={handleClose}
         currentProps={currentItem}
+        onButtonClick={handleClose}
       />
       <div className="'mainProductsContainer'">
         <BarMenu bgColor="#fff" colorText={colorText} home={false} />
@@ -57,19 +60,19 @@ export default function Products() {
           <SectionTitle title="Nossos produtos" />
           <div className="productsTab">
             <button
-              className={activeTab === 1 && `active`}
+              className={activeTab === 1 ? `active` : null}
               onClick={() => setActiveTab(1)}
             >
               Brigadeiros
             </button>
             <button
-              className={activeTab === 2 && `active`}
+              className={activeTab === 2 ? `active` : null}
               onClick={() => setActiveTab(2)}
             >
               Datas comemorativas
             </button>
             <button
-              className={activeTab === 3 && `active`}
+              className={activeTab === 3 ? `active` : null}
               onClick={() => setActiveTab(3)}
             >
               Outros produtos
@@ -127,21 +130,17 @@ export default function Products() {
             {activeTab === 2 && (
               <>
                 <SectionTitle title="Datas comemorativas" />
-                <div className="productsCardContainer">
-                  {datasComemorativasData.map(() => {
-                    return <p>Nada para ver aqui ainda.</p>;
-                  })}
-                </div>
+                {datasComemorativasData.map((index) => {
+                  return <p key={index}>Nada para ver aqui ainda.</p>;
+                })}
               </>
             )}
             {activeTab === 3 && (
               <>
                 <SectionTitle title="Presentes" />
-                <div className="productsCardContainer">
-                  {outrosProdutosData.map(() => {
-                    return <p>Nada para ver aqui ainda.</p>;
-                  })}
-                </div>
+                {outrosProdutosData.map((index) => {
+                  return <p key={index}>Nada para ver aqui ainda.</p>;
+                })}
               </>
             )}
           </section>

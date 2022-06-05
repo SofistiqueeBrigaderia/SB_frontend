@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core";
 import { Provider } from "react-redux";
 import store from "./store";
-
 import Routes from "./Routes";
 
 const generateClassName = createGenerateClassName({
@@ -17,6 +16,12 @@ const generateClassName = createGenerateClassName({
 
 const theme = createTheme({
   overrides: {
+    palette: {
+      primary: {
+        main: "#d8a35d",
+      },
+      secondary: { main: "#5b352c" },
+    },
     MuiCssBaseline: {
       "@global": {
         body: {

@@ -2,32 +2,30 @@ import axios from "axios";
 import BarMenu from "components/BarMenu";
 import Footer from "components/Footer";
 import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "store/CartSlice";
-
+import { useLocation } from "react-router-dom";
+import { QRCodeSVG } from "qrcode.react";
+import { CircularProgress } from "@material-ui/core";
 import "./style.css";
 
 const Payment = () => {
-  const dispatch = useDispatch();
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const cart = useSelector((state) => state.cart);
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
+  const [brcode, setBrcode] = useState();
+  const location = useLocation();
+  const totalAmount = location.state?.totalAmount;
 
   const BASE_URL = "https://gerarqrcodepix.com.br/api/v1?";
   const memorizedConfig = useMemo(
     () => ({
       headers: {
         "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Methods": "GET",
+        "Content-Type": "image/png",
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Credentials": true,
       },
     }),
+    // eslint-disable-next-line
     []
   );
-
-  console.log({ cart });
 
   useEffect(() => {
     if (window.innerWidth < 1060) {
@@ -39,40 +37,37 @@ const Payment = () => {
     axios
       .get(
         BASE_URL +
-          "nome=Ana&cidade=Cotia&chave=f5e64adb-e5cc-4df4-8c47-a02f0bbebaa1&valor=0.1&saida=qr&tamanho=256",
+          `nome=Valeria Neves&cidade=Osasco&chave=${process.env.REACT_APP_PIX_KEY}&valor=${totalAmount}.1&saida=br`,
         memorizedConfig
       )
       .then((response) => {
-        console.log(response);
-        //dispatch(cartActions.clearCart());
+        setBrcode(response.data.brcode);
       })
       .catch((error) => console.log(error.message));
+    // eslint-disable-next-line
   }, [memorizedConfig]);
 
   return (
-    <>
+    <div className="mainPaymentContainer" style={{}}>
       <BarMenu bgColor="#fff" colorText={colorText} home={false} />
-      <main style={{ height: "80vh" }} className="cartContainer">
-        <i
-          style={{
-            border: "3px solid  #1D5E2A",
-            borderRadius: "100%",
-            width: "150px",
-            height: "150px",
-            color: "#1D5E2A",
-            fontSize: "80px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          className="fa fa-check"
-          aria-hidden="true"
-        ></i>
-
-        <p>Pagamento confirmado!</p>
+      <main className="paymentContainer">
+        {brcode ? (
+          <div className="qrCodeContainer">
+            <QRCodeSVG value={brcode} size="250px" />
+            <div style={{ textAlign: "center" }}>
+              <p className="brCode">{brcode}</p>
+            </div>
+            <p>Obrigada pela preferência!</p>
+            <strong style={{ textAlign: "center" }}>
+              Copie ou escaneie o QR code acima para efetuar o pagamento.
+            </strong>
+          </div>
+        ) : (
+          <CircularProgress color="#5b352c" />
+        )}
       </main>
       <Footer home={false} />
-    </>
+    </div>
   );
 };
 
