@@ -29,6 +29,8 @@ const Cart = () => {
     setOpen(false);
   };
 
+  console.log(data.cartItems);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,8 +39,8 @@ const Cart = () => {
         return api
           .post(`/pedidos`, {
             numPedido: window.crypto.getRandomValues(orderNumber)[0],
-            quantidade: data?.totalQuantity,
-            precoTotal: data?.totalAmount,
+            quantidade: item.quantidadePedida,
+            precoTotal: item.valorTotal,
             produto: { id: item.id },
             usuario: { id: currentUser?.authCurrentUser.id },
           })
@@ -50,9 +52,11 @@ const Cart = () => {
           });
       });
 
-      navigate(`${location.pathname}/pagamento`, {
-        state: { totalAmount: data?.totalAmount },
-      });
+      setTimeout(() => {
+        navigate(`${location.pathname}/pagamento`, {
+          state: { totalAmount: data?.totalAmount },
+        });
+      }, 1200);
     } else {
       setSeverity("error");
       setMessage("Você precisa realizar o login antes.");

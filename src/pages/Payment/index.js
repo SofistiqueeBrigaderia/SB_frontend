@@ -6,12 +6,15 @@ import { useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { CircularProgress } from "@material-ui/core";
 import "./style.css";
+import { useDispatch } from "react-redux";
+import { cartActions } from "store/CartSlice";
 
 const Payment = () => {
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
   const [brcode, setBrcode] = useState();
   const location = useLocation();
   const totalAmount = location.state?.totalAmount;
+  const dispatch = useDispatch();
 
   const BASE_URL = "https://gerarqrcodepix.com.br/api/v1?";
   const memorizedConfig = useMemo(
@@ -27,6 +30,8 @@ const Payment = () => {
   );
 
   useEffect(() => {
+    dispatch(cartActions.clearCart());
+
     if (window.innerWidth < 1060) {
       setColorText("#fff");
     } else if (window.innerWidth > 1060) {
