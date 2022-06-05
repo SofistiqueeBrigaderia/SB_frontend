@@ -1,5 +1,4 @@
 import { CircularProgress } from "@material-ui/core";
-import "firebase/auth";
 import { lazy, Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
@@ -9,6 +8,7 @@ import {
 } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { app } from "services/firebase";
+import { useDispatch } from "react-redux";
 
 const Home = lazy(() => import("./pages/Home"));
 const Products = lazy(() => import("./pages/Products"));
@@ -22,21 +22,33 @@ const Registration = lazy(() => import("./pages/Registration"));
 export default function Routes() {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     auth.onAuthStateChanged(() => {
-      auth.currentUser.getIdToken().then((result) => {
+      auth.currentUser?.getIdToken().then((result) => {
         setUser(result);
       });
     });
-  }, [auth]);
-
-  console.log(window.sessionStorage.getItem("Auth Token"));
-  console.log(user);
+  }, [auth, dispatch]);
 
   return (
     <Router>
-      <Suspense fallback={<CircularProgress />}>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100vw",
+              height: "100vh",
+            }}
+          >
+            <CircularProgress color="#5b352c" />{" "}
+          </div>
+        }
+      >
         <Switch>
           <Route path="/" exact element={<Home />} />
           <Route path="/produtos" exact element={<Products />} />
@@ -48,12 +60,12 @@ export default function Routes() {
           <Route
             path="/admin/pedidos"
             exact
-            element={user ? <OrdersAdmin /> : <Navigate to="/login" />}
+            element={user ? <OrdersAdmin /> : <Navigate to={-1} />}
           />
           <Route
             path="/meu-carrinho/pagamento"
             exact
-            element={user ? <Payment /> : <Navigate to="/login" />}
+            element={user ? <Payment /> : <Navigate to={-1} />}
           />
         </Switch>
       </Suspense>

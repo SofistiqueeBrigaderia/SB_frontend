@@ -1,7 +1,8 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
   cartItems: [],
+  cartPostItems: [],
   totalQuantity: 0,
   totalAmount: 0,
 };
@@ -16,7 +17,6 @@ const cartSlice = createSlice({
       const existingItem = state.cartItems.find(
         (item) => item.id === newItem.id
       );
-      state.totalQuantity++;
 
       if (!existingItem) {
         state.cartItems.push({
@@ -38,9 +38,17 @@ const cartSlice = createSlice({
       state.totalAmount = currentTotal.reduce(
         (prev, current) => prev + current
       );
+
+      let currentQuantity = state.cartItems.map((item) => {
+        return item.quantidadePedida;
+      });
+
+      state.totalQuantity = currentQuantity.reduce(
+        (prev, current) => prev + current
+      );
     },
 
-    updateQuantity(action, state) {
+    updateQuantity(state, action) {
       const { indexItem, value } = action.payload;
       const existingItem = state.cartItems.find(
         (item) => item.id === indexItem
@@ -56,7 +64,7 @@ const cartSlice = createSlice({
       }
     },
 
-    decrementQuantity(action, state) {
+    decrementQuantity(state, action) {
       const indexItem = action.payload;
       const existingItem = state.cartItems.find(
         (item) => item.id === indexItem
@@ -76,7 +84,7 @@ const cartSlice = createSlice({
       }
     },
 
-    increaseQuantity(action, state) {
+    increaseQuantity(state, action) {
       const indexItem = action.payload;
       const existingItem = state.cartItems.find(
         (item) => item.id === indexItem

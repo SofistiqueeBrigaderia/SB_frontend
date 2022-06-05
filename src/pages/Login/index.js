@@ -16,7 +16,7 @@ const Login = () => {
   const [severity, setSeverity] = useState();
   const navigate = useNavigate();
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -30,9 +30,7 @@ const Login = () => {
       .then(() => {
         setSeverity("success");
         setMessage("Você foi logado com sucesso!");
-        auth.currentUser.getIdToken().then((result) => {
-          window.sessionStorage.setItem("Auth Token", result);
-        });
+
         setOpen(true);
         setTimeout(() => {
           navigate(-1);

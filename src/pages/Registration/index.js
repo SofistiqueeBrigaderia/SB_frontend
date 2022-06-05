@@ -1,6 +1,6 @@
 import BarMenu from "components/BarMenu";
 import Footer from "components/Footer";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import api from "services/api";
 import { app } from "services/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -8,11 +8,14 @@ import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@mui/material";
+import axios from "axios";
+import ReactInputMask from "react-input-mask";
 
 const Registration = () => {
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
+  const [confSenha, setConfSenha] = useState();
   const [nome, setNome] = useState();
   const [telefone, setTelefone] = useState();
   const [cep, setCEP] = useState();
@@ -27,7 +30,9 @@ const Registration = () => {
   const [severity, setSeverity] = useState();
   const navigate = useNavigate();
 
-  const handleClose = (event, reason) => {
+  const validateCEP = useMemo(() => /^[0-9]{8}$/, []);
+
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -37,7 +42,24 @@ const Registration = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const authentication = getAuth(app);
+    const auth = getAuth(app);
+    var validatePassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    if (senha) {
+      if (!validatePassword.test(senha)) {
+        setOpen(true);
+        setSeverity("error");
+        setMessage("A senha deve conter pelo menos uma letra ou um número");
+      }
+    }
+
+    if (confSenha) {
+      if (confSenha !== senha) {
+        setOpen(true);
+        setSeverity("error");
+        setMessage("A senhas devem ser idênticas");
+      }
+    }
 
     api
       .post("/usuarios", {
@@ -62,8 +84,8 @@ const Registration = () => {
       });
 
     const createUser = async () => {
-      await createUserWithEmailAndPassword(authentication, email, senha)
-        .then((response) => {
+      await createUserWithEmailAndPassword(auth, email, senha)
+        .then(() => {
           setOpen(true);
           setSeverity("success");
           setMessage("Você foi logado com sucesso!");
@@ -81,7 +103,29 @@ const Registration = () => {
     } else if (window.innerWidth > 1060) {
       setColorText("rgba(91, 53, 44, 1)");
     }
-  }, []);
+
+    if (cep) {
+      if (validateCEP.test(cep)) {
+        cep?.replace(/[^0-9]/, "");
+        axios
+          .get(`https://viacep.com.br/ws/${cep}/json/`, {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
+          })
+          .then((res) => {
+            setEndereco(res.data.logradouro + ", " + res.data.bairro);
+            setCidade(res.data.localidade);
+            setEstado(res.data.uf);
+          })
+          .catch((error) => {
+            setMessage(error.message);
+          });
+      }
+    }
+
+    // eslint-disable-next-line
+  }, [cep, validateCEP, window.innerWidth]);
 
   return (
     <>
@@ -89,7 +133,7 @@ const Registration = () => {
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={open}
-        autoHideDuration={900}
+        autoHideDuration={1600}
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity={severity} className="alert">
@@ -111,7 +155,7 @@ const Registration = () => {
               />
             </div>
             <div>
-              <input
+              <ReactInputMask
                 type="text"
                 className="cadastro-input div0"
                 id="email"
@@ -121,23 +165,27 @@ const Registration = () => {
               />
             </div>
             <div>
-              <input
+              <ReactInputMask
                 type="text"
                 className="cadastro-input div0"
                 id="telefone"
+                mask="(99)99999-9999"
                 name="telefone"
                 placeholder="TELEFONE"
                 onChange={(e) => setTelefone(e.target.value)}
               />
             </div>
             <div>
-              <input
+              <ReactInputMask
                 type="text"
                 className="cadastro-input div0"
                 id="cep"
                 name="cep"
+                mask={"99999999"}
                 placeholder="CEP"
-                onChange={(e) => setCEP(e.target.value)}
+                onChange={(e) => {
+                  setCEP(e.target.value);
+                }}
               />
             </div>
             <div>
@@ -147,7 +195,8 @@ const Registration = () => {
                 id="endereco"
                 name="endereco"
                 placeholder="ENDEREÇO"
-                onChange={(e) => setEndereco(e.target.value)}
+                disabled={true}
+                value={endereco}
               />
             </div>
             <div className="input-m">
@@ -176,7 +225,8 @@ const Registration = () => {
                 id="cidade"
                 name="cidade"
                 placeholder="CIDADE"
-                onChange={(e) => setCidade(e.target.value)}
+                value={cidade}
+                disabled={true}
               />
 
               <input
@@ -185,7 +235,8 @@ const Registration = () => {
                 id="estado"
                 name="estado"
                 placeholder="ESTADO"
-                onChange={(e) => setEstado(e.target.value)}
+                disabled={true}
+                value={estado}
               />
             </div>
             <div>
@@ -205,9 +256,9 @@ const Registration = () => {
                 id="confSenha"
                 name="confSenha"
                 placeholder="CONFIRMAR SENHA"
+                onChange={(e) => setConfSenha(e.target.value)}
               />
             </div>
-
             <div className="cadastro-checkbox">
               <input
                 className="cadastro-txt"
@@ -220,7 +271,6 @@ const Registration = () => {
                 Aceito os termos e condições
               </label>
             </div>
-
             <button type="submit" className="cadastro-botao">
               CADASTRAR
             </button>

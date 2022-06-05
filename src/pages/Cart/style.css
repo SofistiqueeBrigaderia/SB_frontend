@@ -1,3 +1,7 @@
+.alert {
+  width: 100vw;
+}
+
 .mainCartContainer {
   min-height: 100vh;
   display: flex;
@@ -25,17 +29,11 @@
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-@media (min-width: 648px) {
-  .cartCard {
-    display: flex;
-    justify-content: space-around;
-  }
-  .cartCardHeading {
-    white-space: nowrap;
-  }
-}
-
 @media (min-width: 996px) {
+  .alert {
+    width: 40vw;
+  }
+
   .cartCard {
     display: flex;
     justify-content: space-around;

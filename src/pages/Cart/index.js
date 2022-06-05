@@ -6,24 +6,66 @@ import "./style.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Footer from "components/Footer";
 import { cartActions } from "store/CartSlice";
+import api from "services/api";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@mui/material";
 
 const Cart = () => {
-  const [count, setCount] = useState(5);
-  const data = useSelector((state) => state.cart.cartItems);
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const userToken = useSelector((state) => state.user.currentUserToken);
+  const data = useSelector((state) => state.cart);
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
+  const currentUser = useSelector((state) => state.auth);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState();
+  const [severity, setSeverity] = useState();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+  var orderNumber = new Uint32Array(1);
+
+  const handleClose = (_event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  console.log(data.cartItems);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    navigate(`${location.pathname}/pagamento`);
-  };
+    if (currentUser.authCurrentUser) {
+      data.cartItems.map((item) => {
+        return api
+          .post(`/pedidos`, {
+            numPedido: window.crypto.getRandomValues(orderNumber)[0],
+            quantidade: item.quantidadePedida,
+            precoTotal: item.valorTotal,
+            produto: { id: item.id },
+            usuario: { id: currentUser?.authCurrentUser.id },
+          })
+          .catch((err) => {
+            console.log(err.message);
+            setSeverity("error");
+            setMessage("Desculpe. Algo deu errado.");
+            setOpen(true);
+          });
+      });
 
-  console.log({ userToken });
+      setTimeout(() => {
+        navigate(`${location.pathname}/pagamento`, {
+          state: { totalAmount: data?.totalAmount },
+        });
+      }, 1200);
+    } else {
+      setSeverity("error");
+      setMessage("Você precisa realizar o login antes.");
+      setOpen(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 1200);
+    }
+  };
 
   useEffect(() => {
     if (window.innerWidth < 1060) {
@@ -31,17 +73,30 @@ const Cart = () => {
     } else if (window.innerWidth > 1060) {
       setColorText("rgba(91, 53, 44, 1)");
     }
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, [window.innerWidth]);
 
   return (
     <div className="mainCartContainer">
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={1200}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={severity} className="alert">
+          {message}
+        </Alert>
+      </Snackbar>
+
       <BarMenu bgColor="#fff" colorText={colorText} home={false} />
+
       <main className="cartContainer">
         <h2 style={{ marginBottom: "21px" }}>Minha sacola</h2>
 
-        {data.length !== 0 ? (
+        {data?.cartItems.length !== 0 ? (
           <form onSubmit={handleSubmit} className="cartCardContainer">
-            {data.map((item, index) => {
+            {data?.cartItems.map((item, index) => {
               return (
                 <div key={index} className="cartCard">
                   <div className="cartCardImage">
@@ -57,7 +112,7 @@ const Cart = () => {
                       Quantidade: {item.quantidadePedida}
                     </p>
                     <p className="cartCardPrice">
-                      Un:
+                      Un:&nbsp;
                       <strong>
                         {item.preco &&
                           item.preco.toLocaleString("pt-br", {
@@ -67,8 +122,16 @@ const Cart = () => {
                       </strong>
                     </p>
                     <p className="cartCardPrice">
-                      Total:
-                      <strong>{item.preco * item.quantidadePedida}</strong>
+                      Total:&nbsp;
+                      <strong>
+                        {(item.preco * item.quantidadePedida).toLocaleString(
+                          "pt-br",
+                          {
+                            style: "currency",
+                            currency: "BRL",
+                          }
+                        )}
+                      </strong>
                     </p>
                   </div>
 
@@ -80,7 +143,10 @@ const Cart = () => {
                         minLength={5}
                         onChange={(e) =>
                           dispatch(
-                            cartActions.updateQuantity(item.id, e.target.value)
+                            cartActions.updateQuantity({
+                              indexItem: item.id,
+                              value: e.target.value,
+                            })
                           )
                         }
                         defaultValue={item.quantidadePedida}
@@ -121,8 +187,8 @@ const Cart = () => {
             <div className="totalContainer">
               <h3>Total da compra</h3>
               <p>
-                {totalAmount &&
-                  totalAmount.toLocaleString("pt-br", {
+                {data.totalAmount &&
+                  data.totalAmount.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
                   })}

@@ -12,6 +12,7 @@
   font-weight: 500;
   color: #eab736;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .buttonContainer a:hover {

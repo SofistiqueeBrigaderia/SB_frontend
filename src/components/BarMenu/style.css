@@ -41,6 +41,10 @@ header .cart {
   font-size: 30px !important;
 }
 
+.cartQuantityContainer {
+  z-index: -1;
+}
+
 header .menu a:hover {
   color: #d8a35d;
 }
@@ -62,7 +66,7 @@ header .containerButton {
 @media (max-width: 1060px) {
   header .containerButton {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   header .btn {
@@ -117,6 +121,7 @@ header .containerButton {
     display: block !important;
     font-size: 65px;
   }
+
   .cartMenuLink {
     font-size: 25px;
     margin: 20px;
