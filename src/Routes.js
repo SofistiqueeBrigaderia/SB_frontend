@@ -34,7 +34,21 @@ export default function Routes() {
 
   return (
     <Router>
-      <Suspense fallback={<CircularProgress color="#5b352c" />}>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100vw",
+              height: "100vh",
+            }}
+          >
+            <CircularProgress color="#5b352c" />{" "}
+          </div>
+        }
+      >
         <Switch>
           <Route path="/" exact element={<Home />} />
           <Route path="/produtos" exact element={<Products />} />

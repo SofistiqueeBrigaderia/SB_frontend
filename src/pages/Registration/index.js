@@ -123,7 +123,9 @@ const Registration = () => {
           });
       }
     }
-  }, [cep, validateCEP]);
+
+    // eslint-disable-next-line
+  }, [cep, validateCEP, window.innerWidth]);
 
   return (
     <>

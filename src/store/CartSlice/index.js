@@ -66,7 +66,7 @@ const cartSlice = createSlice({
       }
     },
 
-    updateQuantity(action, state) {
+    updateQuantity(state, action) {
       const { indexItem, value } = action.payload;
       const existingItem = state.cartItems.find(
         (item) => item.id === indexItem
@@ -82,7 +82,7 @@ const cartSlice = createSlice({
       }
     },
 
-    decrementQuantity(action, state) {
+    decrementQuantity(state, action) {
       const indexItem = action.payload;
       const existingItem = state.cartItems.find(
         (item) => item.id === indexItem
@@ -102,7 +102,7 @@ const cartSlice = createSlice({
       }
     },
 
-    increaseQuantity(action, state) {
+    increaseQuantity(state, action) {
       const indexItem = action.payload;
       const existingItem = state.cartItems.find(
         (item) => item.id === indexItem

@@ -45,7 +45,7 @@ const Payment = () => {
       })
       .catch((error) => console.log(error.message));
     // eslint-disable-next-line
-  }, [memorizedConfig]);
+  }, [memorizedConfig, window.innerWidth]);
 
   return (
     <div className="mainPaymentContainer" style={{}}>

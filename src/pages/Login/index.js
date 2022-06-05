@@ -16,7 +16,7 @@ const Login = () => {
   const [severity, setSeverity] = useState();
   const navigate = useNavigate();
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }

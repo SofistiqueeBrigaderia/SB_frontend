@@ -18,7 +18,8 @@ export default function AboutUs() {
     } else if (window.innerWidth > 1060) {
       setColorText("rgba(91, 53, 44, 1)");
     }
-  }, []);
+    // eslint-disable-next-line
+  }, [window.innerWidth]);
 
   return (
     <>

@@ -127,11 +127,33 @@ export default function BarMenu({ bgColor, home, colorText }) {
                   display: "inline-flex",
                   justifyContent: "flex-start",
                   alignItems: "flex-start",
+                  zIndex: -1,
                 }}
               >
                 <i className="fa-solid fa-cart-shopping"></i>
-                <i className="fa fa-circle cartContainer" aria-hidden="true">
-                  <p className="cartQuantity">{cartQuantity}</p>
+                <i
+                  className="fa fa-circle cartQuantityContainer"
+                  aria-hidden="true"
+                  style={{
+                    position: "relative",
+                    marginLeft: "1px",
+                    display: "inline-flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "20px",
+                    color: "#d8a35d",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontFamily: "Source Sans Pro",
+                      fontSize: "14px",
+                      position: "absolute",
+                      color: "#fff",
+                    }}
+                  >
+                    {cartQuantity}
+                  </p>
                 </i>
               </div>
             )}
@@ -169,7 +191,7 @@ export default function BarMenu({ bgColor, home, colorText }) {
             >
               <i className="fa-solid fa-cart-shopping"></i>
               <i
-                class="fa fa-circle"
+                className="fa fa-circle cartQuantityContainer"
                 aria-hidden="true"
                 style={{
                   position: "relative",

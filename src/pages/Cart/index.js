@@ -69,7 +69,8 @@ const Cart = () => {
     } else if (window.innerWidth > 1060) {
       setColorText("rgba(91, 53, 44, 1)");
     }
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, [window.innerWidth]);
 
   return (
     <div className="mainCartContainer">

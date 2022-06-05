@@ -44,7 +44,7 @@ export default function Products() {
         throw err;
       });
     // eslint-disable-next-line
-  }, []);
+  }, [window.innerWidth]);
 
   return (
     <>
