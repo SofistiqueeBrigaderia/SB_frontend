@@ -42,18 +42,16 @@ const Cart = () => {
             produto: { id: item.id },
             usuario: { id: currentUser?.authCurrentUser.id },
           })
-          .then(() => {
-            navigate(`${location.pathname}/pagamento`, {
-              state: { totalAmount: data?.totalAmount },
-            });
-            dispatch(cartActions.clearCart());
-          })
           .catch((err) => {
             console.log(err.message);
             setSeverity("error");
             setMessage("Desculpe. Algo deu errado.");
             setOpen(true);
           });
+      });
+
+      navigate(`${location.pathname}/pagamento`, {
+        state: { totalAmount: data?.totalAmount },
       });
     } else {
       setSeverity("error");
