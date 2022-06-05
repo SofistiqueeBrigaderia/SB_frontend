@@ -18,7 +18,6 @@ const Payment = () => {
     () => ({
       headers: {
         "Access-Control-Allow-Origin": "*",
-        "Content-Type": "image/png",
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Credentials": true,
       },
