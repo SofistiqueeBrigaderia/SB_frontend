@@ -36,9 +36,9 @@ export default function Products() {
     }
 
     api
-      .get("/produtos/all")
+      .get("/produtos/categoria/brigadeiros")
       .then((data) => {
-        setBrigadeiroData(data.data.content);
+        setBrigadeiroData(data.data);
       })
       .catch((err) => {
         throw err;

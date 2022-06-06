@@ -18,6 +18,7 @@ const Payment = lazy(() => import("./pages/Payment"));
 const Login = lazy(() => import("./pages/Login"));
 const OrdersAdmin = lazy(() => import("./pages/OrdersAdmin"));
 const Registration = lazy(() => import("./pages/Registration"));
+const PrivacyPolitics = lazy(() => import("./pages/PrivacyPolitics"));
 
 export default function Routes() {
   const auth = getAuth(app);
@@ -56,12 +57,9 @@ export default function Routes() {
           <Route path="/meu-carrinho" exact element={<Cart />} />
           <Route path="/cadastro" exact element={<Registration />} />
           <Route path="/login" exact element={<Login />} />
+          <Route path="/termos" exact element={<PrivacyPolitics />} />
 
-          <Route
-            path="/admin/pedidos"
-            exact
-            element={user ? <OrdersAdmin /> : <Navigate to={-1} />}
-          />
+          <Route path="/admin/pedidos" exact element={<OrdersAdmin />} />
           <Route
             path="/meu-carrinho/pagamento"
             exact
