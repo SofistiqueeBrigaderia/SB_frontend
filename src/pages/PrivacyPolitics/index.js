@@ -1,16 +1,24 @@
 import BarMenu from "components/BarMenu";
 import SectionTitle from "components/SectionTitle";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
 
 const PrivacyPolitics = () => {
-
   const [colorText, setColorText] = useState("rgba(91, 53, 44, 1)");
+
+  useEffect(() => {
+    if (window.innerWidth < 1060) {
+      setColorText("#fff");
+    } else if (window.innerWidth > 1060) {
+      setColorText("rgba(91, 53, 44, 1)");
+    }
+    // eslint-disable-next-line
+  }, [window.innerWidth]);
 
   return (
     <>
-      <BarMenu home={false} />
+      <BarMenu colorText={colorText} home={false} />
 
       <main className="termos-main">
         <br />
@@ -301,9 +309,7 @@ const PrivacyPolitics = () => {
           </p>
         </ol>
         <Link to="/cadastro">
-          <button className="termos-botao">
-            VOLTAR
-          </button>
+          <button className="termos-botao">VOLTAR</button>
         </Link>
       </main>
     </>

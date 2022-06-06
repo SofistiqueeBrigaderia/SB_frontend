@@ -26,6 +26,7 @@ function OrdersAdmin() {
         });
     };
     apiCall();
+
     // eslint-disable-next-line
   }, [window.innerWidth]);
 
@@ -45,7 +46,7 @@ function OrdersAdmin() {
           >
             {pedidosData.map((pedidosData) => {
               return (
-                <div className="orderCard">
+                <div key={pedidosData.id} className="orderCard">
                   <div className="orderCardInfo">
                     <h2 className="orderCardHeading">
                       Pedido Nº {pedidosData?.numPedido}
