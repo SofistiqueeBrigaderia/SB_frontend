@@ -29,43 +29,43 @@ const Cart = () => {
     setOpen(false);
   };
 
-  console.log(data.cartItems);
-
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (currentUser.authCurrentUser) {
-      data.cartItems.map((item) => {
-        return api
-          .post(`/pedidos`, {
-            numPedido: window.crypto.getRandomValues(orderNumber)[0],
-            quantidade: item.quantidadePedida,
-            precoTotal: item.valorTotal,
-            produto: { id: item.id },
-            usuario: { id: currentUser?.authCurrentUser.id },
-          })
-          .catch((err) => {
-            console.log(err.message);
-            setSeverity("error");
-            setMessage("Desculpe. Algo deu errado.");
-            setOpen(true);
-          });
-      });
-
-      setTimeout(() => {
-        navigate(`${location.pathname}/pagamento`, {
-          state: { totalAmount: data?.totalAmount },
-        });
-      }, 1200);
+      await Promise.all(
+        data.cartItems.map(async (item) => {
+          await api
+            .post(`/pedidos`, {
+              numPedido: window.crypto.getRandomValues(orderNumber)[0],
+              quantidade: item.quantidadePedida,
+              precoTotal: item.valorTotal,
+              produto: { id: item.id },
+              usuario: { id: currentUser?.authCurrentUser.id },
+            })
+            .catch((err) => {
+              console.log(err.message);
+              setSeverity("error");
+              setMessage("Desculpe. Algo deu errado.");
+              setOpen(true);
+            });
+        })
+      );
     } else {
       setSeverity("error");
       setMessage("Você precisa realizar o login antes.");
       setOpen(true);
       setTimeout(() => {
         navigate("/login");
-      }, 1200);
+      }, 2800);
     }
-  };
+
+    setTimeout(() => {
+      navigate(`${location.pathname}/pagamento`, {
+        state: { totalAmount: data?.totalAmount },
+      });
+    }, 1200);
+  }
 
   useEffect(() => {
     if (window.innerWidth < 1060) {
