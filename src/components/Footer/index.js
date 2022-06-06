@@ -41,7 +41,7 @@ export default function Footer({ home }) {
               })}
             </li>
             <li className="linkLine">
-              <Link className="internalLink" to="/">
+              <Link className="internalLink" to="/termos">
                 Política de privacidade
               </Link>
               &nbsp;&nbsp;|

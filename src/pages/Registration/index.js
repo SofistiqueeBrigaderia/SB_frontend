@@ -5,7 +5,7 @@ import api from "services/api";
 import { app } from "services/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import "./style.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@mui/material";
 import axios from "axios";
@@ -268,7 +268,10 @@ const Registration = () => {
                 onChange={(e) => setTermos(e.target.checked)}
               />
               <label className="cadastro-txt">
-                Aceito os termos e condições
+                Aceito os
+                <Link style={{ display: "inline" }} to="/termos">
+                  termos e condições
+                </Link>
               </label>
             </div>
             <button type="submit" className="cadastro-botao">
