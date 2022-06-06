@@ -268,7 +268,7 @@ const Registration = () => {
                 onChange={(e) => setTermos(e.target.checked)}
               />
               <label className="cadastro-txt">
-                Aceito os
+                Aceito os {" "}
                 <Link style={{ display: "inline" }} to="/termos">
                   termos e condições
                 </Link>

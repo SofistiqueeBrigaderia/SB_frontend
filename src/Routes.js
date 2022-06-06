@@ -59,7 +59,11 @@ export default function Routes() {
           <Route path="/login" exact element={<Login />} />
           <Route path="/termos" exact element={<PrivacyPolitics />} />
 
-          <Route path="/admin/pedidos" exact element={<OrdersAdmin />} />
+          <Route 
+            path="/admin/pedidos"
+            exact
+            element={user ? <OrdersAdmin /> : <Navigate to={-1} />} 
+          />
           <Route
             path="/meu-carrinho/pagamento"
             exact
